@@ -20,13 +20,35 @@ fn main() {
     }
 
     let mut collection : Vec<_> = words.iter().collect();
-    collection.sort_by(|a, b| b.1.cmp(a.1));
+    collection.sort_by(|a, b| {
+        if a.1 == b.1 {
+            a.0.cmp(b.0)
+        } else {
+            b.1.cmp(a.1)
+        }
+    });
 
-    let output = "output.dat";
+    let output = "output.txt";
     let mut file = File::create(output).unwrap();
 
     for (word, count) in collection {
-        println!("{} {}", word, count);
+        //println!("{} {}", word, count);
         writeln!(&mut file, "{} {}", word, count).unwrap();
+    }
+
+    compare();
+}
+
+fn compare() {
+    let file = File::open("output.txt").unwrap();
+    let metadata = file.metadata().unwrap();
+
+    let correct = File::open("THEGODFATHER_CORRECT_WC.dat").unwrap();
+    let correct_metadata = file.metadata().unwrap();
+
+    if metadata.len() == correct_metadata.len() {
+        println!("Files match!");
+    } else {
+        println!("Correct size: {}, Output size: {}", correct_metadata.len(), metadata.len());
     }
 }
