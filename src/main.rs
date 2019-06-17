@@ -23,15 +23,10 @@ fn main() {
     collection.sort_by(|a, b| b.1.cmp(a.1));
 
     let output = "output.dat";
-    let temp_directory = env::temp_dir();
-    let temp_file = temp_directory.join(output);
-
-    let mut file = File::create(temp_file).unwrap();
+    let mut file = File::create(output).unwrap();
 
     for (word, count) in collection {
         println!("{} {}", word, count);
         writeln!(&mut file, "{} {}", word, count).unwrap();
     }
-
-    file.write(b"Bytes\n").unwrap();
 }
