@@ -18,5 +18,8 @@ fn main() {
         }
     }
 
-    println!("{:?}", words);
+    let mut collection : Vec<_> = words.iter().collect();
+    collection.sort_by(|a, b| b.1.cmp(a.1));
+
+    println!("{:?}", collection);
 }
