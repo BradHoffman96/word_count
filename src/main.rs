@@ -1,5 +1,6 @@
+use std::env;
 use std::fs::File;
-use std::io::{BufRead, BufReader};
+use std::io::{BufRead, BufReader, Write};
 use std::collections::HashMap;
 
 fn main() {
@@ -21,5 +22,16 @@ fn main() {
     let mut collection : Vec<_> = words.iter().collect();
     collection.sort_by(|a, b| b.1.cmp(a.1));
 
-    println!("{:?}", collection);
+    let output = "output.dat";
+    let temp_directory = env::temp_dir();
+    let temp_file = temp_directory.join(output);
+
+    let mut file = File::create(temp_file).unwrap();
+
+    for (word, count) in collection {
+        println!("{} {}", word, count);
+        writeln!(&mut file, "{} {}", word, count).unwrap();
+    }
+
+    file.write(b"Bytes\n").unwrap();
 }
