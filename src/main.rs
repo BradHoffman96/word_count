@@ -44,7 +44,7 @@ fn compare() {
     let metadata = file.metadata().unwrap();
 
     let correct = File::open("THEGODFATHER_CORRECT_WC.dat").unwrap();
-    let correct_metadata = file.metadata().unwrap();
+    let correct_metadata = correct.metadata().unwrap();
 
     if metadata.len() == correct_metadata.len() {
         println!("Files match!");
